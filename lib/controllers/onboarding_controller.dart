@@ -1,6 +1,9 @@
+import 'package:get/get.dart';
 import 'package:to_do_list_app_flutter/models/onboarding_info.dart';
 
-class OnboardingController {
+class OnboardingController extends GetxController {
+  var selectedPageIndex = 0.obs;
+
   List<OnboardingInfo> onboardingPages = [
     OnboardingInfo('assets/images/todo_logo1.png', 'Welcome',
         'Now you can make your to-do list any time in your mobile.'),
