@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_list_app_flutter/models/onboarding_info.dart';
 
 import '../views/home/home_page.dart';
@@ -11,6 +12,7 @@ class OnboardingController extends GetxController {
 
   forwardAction() {
     if (isLastPage) {
+      storeOnboardView();
       Get.off(HomePage());
     } else
       pageController.nextPage(duration: 300.milliseconds, curve: Curves.ease);
@@ -32,4 +34,10 @@ class OnboardingController extends GetxController {
         description:
             'Start your first to-do list.After finish every task you should select the left icon.')
   ];
+
+  storeOnboardView() async {
+    bool isOnboardViewed = true;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onBoard', isOnboardViewed);
+  }
 }
