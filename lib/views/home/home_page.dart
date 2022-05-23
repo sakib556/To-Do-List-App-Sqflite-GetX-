@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'local_widgets/add_todo_dialogue_widget.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -21,7 +23,11 @@ class HomePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           backgroundColor: Colors.deepPurple,
-          onPressed: () {},
+          onPressed: () => showDialog(
+            context: context,
+            builder: (context) => AddTodoDialogueWidget(),
+            barrierDismissible: false,
+          ),
           child: Icon(Icons.add),
         ),
       ),
