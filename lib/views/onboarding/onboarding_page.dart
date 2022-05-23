@@ -14,6 +14,7 @@ class OnboardingPage extends StatelessWidget {
           body: Stack(
         children: [
           PageView.builder(
+              controller: _controller.pageController,
               itemCount: _controller.onboardingPages.length,
               onPageChanged: _controller.selectedPageIndex,
               itemBuilder: (context, index) {
@@ -68,6 +69,17 @@ class OnboardingPage extends StatelessWidget {
                   );
                 }),
               ),
+            ),
+          ),
+          Positioned(
+            bottom: 25,
+            right: 25,
+            child: FloatingActionButton(
+              elevation: 0,
+              onPressed: _controller.forwardAction,
+              child: Obx(() {
+                return Text(_controller.isLastPage ? 'Start' : 'Next');
+              }),
             ),
           ),
         ],
