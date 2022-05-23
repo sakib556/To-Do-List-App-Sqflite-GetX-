@@ -5,9 +5,25 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("home page"),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("To-do List"),
+          backgroundColor: Colors.deepPurple,
+        ),
+        body: Container(
+          child: Column(
+            children: [],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: Colors.deepPurple,
+          onPressed: () {},
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
