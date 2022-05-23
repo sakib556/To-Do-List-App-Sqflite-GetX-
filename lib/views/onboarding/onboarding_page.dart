@@ -6,7 +6,6 @@ import '../../controllers/onboarding_controller.dart';
 class OnboardingPage extends StatelessWidget {
   OnboardingPage({Key? key}) : super(key: key);
   final _controller = OnboardingController();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,34 +18,43 @@ class OnboardingPage extends StatelessWidget {
               onPageChanged: _controller.selectedPageIndex,
               itemBuilder: (context, index) {
                 return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        _controller.onboardingPages[index].imageAsset,
-                        width: 140,
-                        height: 200,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        _controller.onboardingPages[index].title,
-                        style: const TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 64.0),
-                        child: Text(
-                          _controller.onboardingPages[index].description,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: OrientationBuilder(builder: (context, orientation) {
+                    final isPortrait = orientation == Orientation.portrait;
+                    return isPortrait
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              imageAsset(index: index),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              titleText(index: index),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              detailsText(index: index, width: 200),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              imageAsset(index: index),
+                              const SizedBox(
+                                width: 30,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  titleText(index: index),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  detailsText(index: index, width: 240),
+                                ],
+                              )
+                            ],
+                          );
+                  }),
                 );
               }),
           Positioned(
@@ -84,6 +92,35 @@ class OnboardingPage extends StatelessWidget {
           ),
         ],
       )),
+    );
+  }
+
+  Widget imageAsset({required index}) {
+    return Image.asset(
+      _controller.onboardingPages[index].imageAsset,
+      width: 140,
+      height: 200,
+    );
+  }
+
+  Widget titleText({required index}) {
+    return Text(
+      _controller.onboardingPages[index].title,
+      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget detailsText({required index, required double width}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        width: width,
+        height: 100,
+        child: Text(
+          _controller.onboardingPages[index].description,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ),
     );
   }
 }
