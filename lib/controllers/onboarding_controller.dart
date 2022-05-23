@@ -17,11 +17,19 @@ class OnboardingController extends GetxController {
   }
 
   List<OnboardingInfo> onboardingPages = [
-    OnboardingInfo('assets/images/todo_logo1.png', 'Welcome',
-        'Now you can make your to-do list any time in your mobile.'),
-    OnboardingInfo('assets/images/todo_logo2.png', 'Smart to-do list',
-        'You can store, edit and delete your to-do list.'),
-    OnboardingInfo('assets/images/todo_logo3.png', 'Finish your every task',
-        'Start your first to-do list.After finish every task you should select the left icon.'),
+    OnboardingInfo(
+        imageAsset: 'assets/images/todo_logo1.png',
+        title: 'Welcome',
+        description:
+            'Now you can make your to-do list any time in your mobile.'),
+    OnboardingInfo(
+        imageAsset: 'assets/images/todo_logo2.png',
+        title: 'Smart to-do list',
+        description: 'You can store, edit and delete your to-do list.'),
+    OnboardingInfo(
+        imageAsset: 'assets/images/todo_logo3.png',
+        title: 'Finish your every task',
+        description:
+            'Start your first to-do list.After finish every task you should select the left icon.')
   ];
 }

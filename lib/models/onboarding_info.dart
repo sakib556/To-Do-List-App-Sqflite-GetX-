@@ -3,5 +3,8 @@ class OnboardingInfo {
   final title;
   final description;
 
-  OnboardingInfo(this.imageAsset, this.title, this.description);
+  OnboardingInfo(
+      {required this.imageAsset,
+      required this.title,
+      required this.description});
 }
