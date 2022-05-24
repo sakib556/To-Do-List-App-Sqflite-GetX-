@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'local_widgets/add_todo_dialogue_widget.dart';
-import 'local_widgets/todo_list_widget.dart';
+import 'local_widgets/todo_dialogue/add_todo_dialogue_widget.dart';
+import 'local_widgets/todo_list/todo_list_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
