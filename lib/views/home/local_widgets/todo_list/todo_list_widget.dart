@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:to_do_list_app_flutter/controllers/todos_controller.dart';
 import 'package:to_do_list_app_flutter/views/home/local_widgets/todo_list/todo_widget.dart';
 
+import '../../../to-do_details/to-do_details_page.dart';
+
 class TodoListWidget extends StatelessWidget {
   TodoListWidget({Key? key}) : super(key: key);
   final TodosController _todosController = Get.put(TodosController());
@@ -26,7 +28,11 @@ class TodoListWidget extends StatelessWidget {
               separatorBuilder: (context, index) => Container(height: 8),
               itemCount: _todosController.todoList.length,
               itemBuilder: (context, i) {
-                return TodoWidget(_todosController.todoList[i]);
+                return GestureDetector(
+                    onTap: () {
+                      Get.to(TodoDetails(_todosController.todoList[i]));
+                    },
+                    child: TodoWidget(_todosController.todoList[i]));
               },
             );
     }));

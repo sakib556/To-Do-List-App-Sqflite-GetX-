@@ -17,8 +17,25 @@ class TodosController extends GetxController {
     todoList.refresh();
   }
 
+  cleanText() {
+    titleController.text = "";
+    descriptionController.text = "";
+  }
+
   insertTodos(TodoInfo todo) async {
     await database.insertTodo(todo);
+    fetchTodos();
+    cleanText();
+  }
+
+  updateTodos(TodoInfo todo) async {
+    await database.updateTodo(todo);
+    fetchTodos();
+    cleanText();
+  }
+
+  deleteTodos(var id) async {
+    await database.deleteTodo(id);
     fetchTodos();
   }
 }
