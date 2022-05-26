@@ -1,39 +1,43 @@
 class TodoInfo {
-  DateTime? createdTime;
-  String? title;
-  String? id;
-  String? description;
-  bool? isDone;
+  final int? id;
+  final DateTime createdTime;
+  final String title;
+  final String description;
+  bool isDone;
 
   TodoInfo({
     this.id,
-    this.createdTime,
-    this.title,
-    this.description = '',
-    this.isDone = false,
+    required this.createdTime,
+    required this.title,
+    this.description = "",
+    required this.isDone,
   });
 
   TodoInfo.withId(
-      {this.id, this.createdTime, this.title, this.description, this.isDone});
+      {this.id,
+      required this.createdTime,
+      required this.title,
+      this.description = "",
+      required this.isDone});
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     if (id != null) {
       map['id'] = id;
     }
-    map['date'] = createdTime?.toIso8601String();
+    map['createdTime'] = createdTime.toString();
     map['title'] = title;
     map['description'] = description;
-    map['isdone'] = isDone.toString();
+    map['isDone'] = isDone ? 1 : 0;
     return map;
   }
 
   factory TodoInfo.fromMap(Map<String, dynamic> map) {
     return TodoInfo.withId(
         id: map['id'],
-        createdTime: map['date'],
+        createdTime: map['createdTime'],
         title: map['title'],
         description: map['description'],
-        isDone: map['isdone']);
+        isDone: map['isDone']);
   }
 }

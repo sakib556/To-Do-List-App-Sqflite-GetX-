@@ -6,68 +6,63 @@ import 'package:sqflite/sqflite.dart';
 import 'package:to_do_list_app_flutter/models/todo_info.dart';
 
 class DatabaseHelper {
-  static final DatabaseHelper instance = DatabaseHelper._instance();
-  static Database? _db = null;
+  Database? _db;
+  String todoTable = 'todo_table';
+  String colId = 'id'; //column = col
+  String colCreatedTime = 'createdTime';
+  String colTitle = 'title';
+  String colDescription = 'description';
+  String colIsDone = 'isDone';
 
-  DatabaseHelper._instance();
-  String? todoTable;
-  String? colId; //column = col
-  String? colCreatedTime;
-  String? colTitle;
-  String? colDescription;
-  String? colIsDone;
-
-  Future<Database?> get db async {
+  Future<Database?> get database async {
     _db ??= await _initDb();
     return _db;
   }
 
   Future<Database?> _initDb() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'todo_list.db';
-    final todoListDb =
-        await openDatabase(path, version: 1, onCreate: _createDb);
+    String path = directory.path + "todo.db";
+    final todoListDb = await openDatabase(path, version: 10,
+        onCreate: (Database db, int version) async {
+      await db.execute(
+          "CREATE TABLE $todoTable($colId INTEGER PRIMARY KEY AUTOINCREMENT,"
+          "$colCreatedTime TEXT,$colTitle TEXT,$colDescription TEXT,"
+          "$colIsDone INTEGER )");
+    });
     return todoListDb;
   }
 
-  void _createDb(Database db, int version) async {
-    await db.execute(
-        "CREATE TABLE $todoTable($colId INTEGER PRIMARY KEY, $colCreatedTime TEXT, $colTitle TEXT, $colDescription TEXT,$colIsDone TEXT )");
-  }
-
-  Future<List<Map<String, dynamic>>> getTodoMapList() async {
-    Database? db = await this.db;
-    final List<Map<String, dynamic>> result = await db!.query(todoTable!);
-    return result;
-  }
-
   Future<List<TodoInfo>> getTodoList() async {
-    final List<Map<String, dynamic>> todoMapList = await getTodoMapList();
-    final List<TodoInfo> todoList = [];
-    todoMapList.forEach((todoMap) {
-      todoList.add(TodoInfo.fromMap(todoMap));
-    });
-    todoList.sort(
-        (todoA, todoB) => todoA.createdTime!.compareTo(todoB.createdTime!));
-    return todoList;
+    final db = await database;
+    final List<Map<String, dynamic>> items =
+        await db!.query('todo_table', orderBy: 'id DESC');
+    return List.generate(
+        items.length,
+        (i) => TodoInfo(
+            id: items[i]['id'],
+            createdTime: DateTime.parse(items[i]['createdTime']),
+            title: items[i]['title'],
+            description: items[i]['description'],
+            isDone: items[i]["isDone"] == 1 ? true : false));
   }
 
   Future<int?> insertTodo(TodoInfo todo) async {
-    Database? db = await this.db;
-    var result = await db?.insert(todoTable!, todo.toMap());
+    Database? db = await database;
+    var result = await db?.insert(todoTable, todo.toMap());
+    print("databse inserted");
     return result;
   }
 
   Future<int?> updateTodo(TodoInfo todo) async {
-    var db = await this.db;
-    var result = await db?.update(todoTable!, todo.toMap(),
+    var db = await database;
+    var result = await db?.update(todoTable, todo.toMap(),
         where: "$colId = ?", whereArgs: [todo.id]);
     return result;
   }
 
   Future<int?> deleteTodo(int id) async {
     int? result;
-    var db = await this.db;
+    var db = await database;
     result = await db?.rawDelete('DELETE FROM $todoTable WHERE $colId = $id');
     return result;
   }

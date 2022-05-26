@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list_app_flutter/views/home/local_widgets/todo_add_dialogue/todo_form_widget.dart';
 
-import 'todo_form_widget.dart';
-
-class AddTodoDialogueWidget extends StatelessWidget {
-  AddTodoDialogueWidget({Key? key}) : super(key: key);
-  String title = '';
-  String description = '';
-
+class TodoAddDialgueWidget extends StatelessWidget {
+  const TodoAddDialgueWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) => AlertDialog(
         content: Column(
@@ -21,7 +17,7 @@ class AddTodoDialogueWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            TodoFormWidget(),
+            TodoFormWidget()
           ],
         ),
       );

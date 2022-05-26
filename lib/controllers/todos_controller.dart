@@ -1,29 +1,24 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../models/todo_info.dart';
+import 'package:to_do_list_app_flutter/databases/database.dart';
+import 'package:to_do_list_app_flutter/models/todo_info.dart';
 
 class TodosController extends GetxController {
-  List<TodoInfo> todos = [
-    // TodoInfo(
-    //   createdTime: DateTime.now(),
-    //   title: 'Buy Food',
-    //   description: 'Eggs,Milk,Bread,Water',
-    // ),
-    // TodoInfo(
-    //   createdTime: DateTime.now(),
-    //   title: 'Plan family trip to cox\'sbazar',
-    //   description: 'Rent some hotels, Rent a car, Pack suitcase',
-    // ),
-    // TodoInfo(
-    //   createdTime: DateTime.now(),
-    //   title: 'Eid shopping',
-    // ),
-    // TodoInfo(
-    //   createdTime: DateTime.now(),
-    //   title: 'Plan Sultan\'s birthday party',
-    // ),
-  ];
+  var titleController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var database = DatabaseHelper();
+  var todoList = <TodoInfo>[].obs;
 
-  List<TodoInfo> get todoList =>
-      todos.where((todo) => todo.isDone == false).toList();
+  fetchTodos() async {
+    var todos = await database.getTodoList();
+    if (todos != null) {
+      todoList.value = todos;
+    }
+    todoList.refresh();
+  }
+
+  insertTodos(TodoInfo todo) async {
+    await database.insertTodo(todo);
+    fetchTodos();
+  }
 }
