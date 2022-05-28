@@ -9,17 +9,17 @@ class TodosController extends GetxController {
   var database = DatabaseHelper();
   var todoList = <TodoInfo>[].obs;
 
+  cleanText() {
+    titleController.text = "";
+    descriptionController.text = "";
+  }
+
   fetchTodos() async {
     var todos = await database.getTodoList();
     if (todos != null) {
       todoList.value = todos;
     }
     todoList.refresh();
-  }
-
-  cleanText() {
-    titleController.text = "";
-    descriptionController.text = "";
   }
 
   insertTodos(TodoInfo todo) async {
