@@ -26,6 +26,7 @@ class TodoDetails extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  buildCheckBox(),
                   SizedBox(height: 8),
                   buildTitle(),
                   SizedBox(height: 8),
@@ -48,6 +49,23 @@ class TodoDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildCheckBox() {
+    _todosController.isDone.value = todo.isDone;
+    return Obx(() {
+      return Checkbox(
+        activeColor: Colors.blue,
+        checkColor: Colors.white,
+        value: _todosController.isDone.value,
+        onChanged: (bool? value) {
+          value = value!;
+          todo.isDone = value;
+          _todosController.isDone.value = value;
+          _todosController.updateCheckbox(todo);
+        },
+      );
+    });
   }
 
   Widget buildTitle() {

@@ -8,7 +8,7 @@ class TodosController extends GetxController {
   var descriptionController = TextEditingController();
   var database = DatabaseHelper();
   var todoList = <TodoInfo>[].obs;
-
+  var isDone = false.obs;
   cleanText() {
     titleController.text = "";
     descriptionController.text = "";
@@ -32,6 +32,11 @@ class TodosController extends GetxController {
     await database.updateTodo(todo);
     fetchTodos();
     cleanText();
+  }
+
+  updateCheckbox(TodoInfo todo) async {
+    await database.updateCheckbox(todo);
+    fetchTodos();
   }
 
   deleteTodos(var id) async {

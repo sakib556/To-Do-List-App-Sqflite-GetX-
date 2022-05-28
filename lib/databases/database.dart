@@ -69,6 +69,17 @@ class DatabaseHelper {
     return result;
   }
 
+  Future<int?> updateCheckbox(TodoInfo todo) async {
+    var db = await database;
+    int? isDone;
+    todo.isDone ? isDone = 1 : 0;
+    var result = await db?.rawUpdate('''
+    UPDATE $todoTable 
+    SET $colIsDone = ? WHERE $colId = ?
+    ''', [isDone, todo.id]);
+    return result;
+  }
+
   Future<int?> deleteTodo(int id) async {
     int? result;
     var db = await database;

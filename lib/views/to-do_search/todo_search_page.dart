@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:to_do_list_app_flutter/controllers/search_todos_controller.dart';
 import 'package:to_do_list_app_flutter/views/to-do_details/to-do_details_page.dart';
 
+import '../../controllers/todos_controller.dart';
+
 class TodoSearchPage extends StatelessWidget {
   TodoSearchPage({Key? key}) : super(key: key);
-  TodoSearchController controller = Get.put(TodoSearchController());
+  final TodoSearchController controller = Get.put(TodoSearchController());
+  final TodosController todosController = Get.put(TodosController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +60,19 @@ class TodoSearchPage extends StatelessWidget {
                           itemCount: controller.searchTodos.length,
                           itemBuilder: (context, i) {
                             final todo = controller.searchTodos[i];
+                            todosController.isDone.value = todo.isDone;
                             return ListTile(
+                              leading: Checkbox(
+                                activeColor: Theme.of(context).primaryColor,
+                                checkColor: Colors.white,
+                                value: todosController.isDone.value,
+                                onChanged: (bool? value) {
+                                  value = value!;
+                                  todo.isDone = value;
+                                  todosController.isDone.value = value;
+                                  todosController.updateCheckbox(todo);
+                                },
+                              ),
                               title: Text(todo.title),
                               subtitle: Text(todo.description),
                               onTap: () {
