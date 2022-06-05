@@ -3,11 +3,21 @@ import 'package:get/get.dart';
 
 import '../../controllers/onboarding_controller.dart';
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPage extends StatefulWidget {
   OnboardingPage({Key? key}) : super(key: key);
+
+  @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends State<OnboardingPage> {
   final _controller = OnboardingController();
+  var screenWidth, screenHeight, screenSize;
   @override
   Widget build(BuildContext context) {
+    screenSize = MediaQuery.of(context).size.aspectRatio;
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
           body: Stack(
@@ -18,9 +28,10 @@ class OnboardingPage extends StatelessWidget {
               onPageChanged: _controller.selectedPageIndex,
               itemBuilder: (context, index) {
                 return Container(
-                  child: OrientationBuilder(builder: (context, orientation) {
-                    final isPortrait = orientation == Orientation.portrait;
-                    return isPortrait
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    var isWidth = context.width;
+                    print("width $isWidth");
+                    return isWidth < 435
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -98,15 +109,15 @@ class OnboardingPage extends StatelessWidget {
   Widget imageAsset({required index}) {
     return Image.asset(
       _controller.onboardingPages[index].imageAsset,
-      width: 140,
-      height: 200,
+      width: screenWidth * .40,
+      height: screenHeight * .30,
     );
   }
 
   Widget titleText({required index}) {
     return Text(
       _controller.onboardingPages[index].title,
-      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 

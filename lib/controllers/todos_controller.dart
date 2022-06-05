@@ -9,6 +9,7 @@ class TodosController extends GetxController {
   var database = DatabaseHelper();
   var todoList = <TodoInfo>[].obs;
   var isDone = false.obs;
+  var isDoneDetails = false.obs;
   cleanText() {
     titleController.text = "";
     descriptionController.text = "";

@@ -7,7 +7,6 @@ class TodoWidget extends StatelessWidget {
   final TodoInfo todo;
   TodoWidget(this.todo, {Key? key}) : super(key: key);
   final TodosController _controller = Get.put(TodosController());
-
   @override
   Widget build(BuildContext context) {
     _controller.isDone.value = todo.isDone;

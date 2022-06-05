@@ -2,23 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_list_app_flutter/controllers/todos_controller.dart';
 import 'package:to_do_list_app_flutter/models/todo_info.dart';
+import 'package:to_do_list_app_flutter/views/home/home_page.dart';
 
-class TodoDetails extends StatelessWidget {
+class TodoDetails extends StatefulWidget {
   final TodoInfo todo;
-  TodoDetails(this.todo, {Key? key}) : super(key: key);
-  final TodosController _todosController = Get.put(TodosController());
+  const TodoDetails(this.todo, {Key? key}) : super(key: key);
+  @override
+  State<TodoDetails> createState() => _TodoDetailsState();
+}
+
+class _TodoDetailsState extends State<TodoDetails> {
+  final TodosController _controller = Get.put(TodosController());
   var title, description;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Edit your to-do List"),
-        backgroundColor: Colors.deepPurple,
-      ),
-      backgroundColor: Colors.blue,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
+    return Obx(() {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Edit your to-do List"),
+          backgroundColor: Colors.deepPurple,
+        ),
+        backgroundColor: Colors.blue,
+        body: Container(
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -47,29 +52,27 @@ class TodoDetails extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildCheckBox() {
-    _todosController.isDone.value = todo.isDone;
-    return Obx(() {
-      return Checkbox(
-        activeColor: Colors.blue,
-        checkColor: Colors.white,
-        value: _todosController.isDone.value,
-        onChanged: (bool? value) {
-          value = value!;
-          todo.isDone = value;
-          _todosController.isDone.value = value;
-          _todosController.updateCheckbox(todo);
-        },
       );
     });
   }
 
+  Widget buildCheckBox() {
+    _controller.isDoneDetails.value = widget.todo.isDone;
+    return Checkbox(
+      activeColor: Theme.of(context).primaryColor,
+      checkColor: Colors.white,
+      value: _controller.isDoneDetails.value,
+      onChanged: (bool? value) {
+        value = value!;
+        widget.todo.isDone = value;
+        _controller.isDoneDetails.value = value;
+        _controller.updateCheckbox(widget.todo);
+      },
+    );
+  }
+
   Widget buildTitle() {
-    title = todo.title;
+    title = widget.todo.title;
     return TextFormField(
       initialValue: title,
       onChanged: (value) {
@@ -90,7 +93,7 @@ class TodoDetails extends StatelessWidget {
   }
 
   Widget buildDescription() {
-    description = todo.description;
+    description = widget.todo.description;
     return TextFormField(
       maxLines: 3,
       initialValue: description,
@@ -112,13 +115,13 @@ class TodoDetails extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
           ),
           onPressed: () {
-            _todosController.updateTodos(TodoInfo(
-                id: todo.id,
+            _controller.updateTodos(TodoInfo(
+                id: widget.todo.id,
                 createdTime: DateTime.now(),
                 title: title,
-                isDone: false,
+                isDone: widget.todo.isDone,
                 description: description));
-            Navigator.pop(context);
+            Get.offAll(() => HomePage());
           },
           child: Text(
             'Save',
@@ -126,6 +129,7 @@ class TodoDetails extends StatelessWidget {
           ),
         ),
       );
+
   Widget buildCancelButton(BuildContext context) => SizedBox(
         width: 80,
         height: 40,
@@ -142,6 +146,7 @@ class TodoDetails extends StatelessWidget {
           ),
         ),
       );
+
   Widget buildDeleteButton(BuildContext context) => SizedBox(
         width: 80,
         height: 40,
@@ -150,7 +155,7 @@ class TodoDetails extends StatelessWidget {
             backgroundColor: MaterialStateProperty.all(Colors.red),
           ),
           onPressed: () {
-            _todosController.deleteTodos(todo.id);
+            _controller.deleteTodos(widget.todo.id);
             Navigator.pop(context);
           },
           child: Text(

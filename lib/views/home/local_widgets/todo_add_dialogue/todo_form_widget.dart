@@ -7,25 +7,29 @@ class TodoFormWidget extends StatelessWidget {
   final TodosController _todosController = Get.put(TodosController());
   TodoFormWidget({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildTitle(),
-            SizedBox(height: 8),
-            buildDescription(),
-            SizedBox(height: 32),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                buildCancelButton(context),
-                SizedBox(width: 30),
-                buildSaveButton(context),
-              ],
-            )
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context);
+    print("screeen size : ${screenWidth}");
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildTitle(),
+          SizedBox(height: 8),
+          buildDescription(),
+          SizedBox(height: 32),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              buildCancelButton(context),
+              SizedBox(width: 30),
+              buildSaveButton(context),
+            ],
+          )
+        ],
+      ),
+    );
+  }
 
   Widget buildTitle() => TextFormField(
         maxLines: 1,
