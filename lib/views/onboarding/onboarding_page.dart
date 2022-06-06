@@ -17,7 +17,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size.aspectRatio;
     screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
+    var btnBottom, btnRight, circleLeft, circleBottom;
+    if (screenWidth > 540) {
+      btnBottom = screenHeight / 2;
+      btnRight = screenWidth * .1;
+      circleLeft = screenWidth / 2;
+      circleBottom = screenHeight * .2;
+    } else {
+      btnBottom = screenHeight * .05;
+      btnRight = screenWidth * .1;
+      circleLeft = screenWidth * .1;
+      circleBottom = screenHeight * .07;
+    }
     return SafeArea(
       child: Scaffold(
           body: Stack(
@@ -30,7 +42,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 return Container(
                   child: LayoutBuilder(builder: (context, constraints) {
                     var isWidth = context.width;
-                    print("width $isWidth");
+                    var isHeight = context.height;
+                    print("width $isWidth height $isHeight");
                     return isWidth < 435
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -69,8 +82,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 );
               }),
           Positioned(
-            bottom: 25,
-            left: 25,
+            bottom: circleBottom,
+            left: circleLeft,
             child: Row(
               children: List.generate(
                 _controller.onboardingPages.length,
@@ -91,8 +104,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
           Positioned(
-            bottom: 25,
-            right: 25,
+            bottom: btnBottom,
+            right: btnRight,
             child: FloatingActionButton(
               elevation: 0,
               onPressed: _controller.forwardAction,
@@ -109,8 +122,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
   Widget imageAsset({required index}) {
     return Image.asset(
       _controller.onboardingPages[index].imageAsset,
-      width: screenWidth * .40,
-      height: screenHeight * .30,
+      width: 80,
+      height: 100,
     );
   }
 

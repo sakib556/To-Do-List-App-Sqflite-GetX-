@@ -46,15 +46,6 @@ class DatabaseHelper {
             isDone: items[i]["isDone"] == 1 ? true : false));
   }
 
-  // Future<List<TodoInfo>> searchTodos(String keyword) async {
-  //   final db = await database;
-  //   List<Map<String, dynamic>> allRows = await db!
-  //       .query(todoTable, where: 'title LIKE ?', whereArgs: ['%$keyword%']);
-  //   List<TodoInfo> todos =
-  //       allRows.map((todo) => TodoInfo.fromMap(todo)).toList();
-  //   return todos;
-  // }
-
   Future<int?> insertTodo(TodoInfo todo) async {
     Database? db = await database;
     var result = await db?.insert(todoTable, todo.toMap());

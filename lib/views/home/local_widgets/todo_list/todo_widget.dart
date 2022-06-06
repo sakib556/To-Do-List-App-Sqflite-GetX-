@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_list_app_flutter/controllers/todos_controller.dart';
@@ -36,7 +38,7 @@ class TodoWidget extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.deepPurple,
-                    fontSize: 19,
+                    fontSize: 18,
                   ),
                 ),
                 if (todo.description.isNotEmpty)
@@ -44,7 +46,9 @@ class TodoWidget extends StatelessWidget {
                     margin: EdgeInsets.only(top: 4),
                     child: Text(
                       todo.description,
-                      style: TextStyle(fontSize: 16, height: 1.5),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 13, height: 1.5),
                     ),
                   )
               ],

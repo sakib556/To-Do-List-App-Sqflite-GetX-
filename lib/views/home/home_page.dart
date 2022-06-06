@@ -22,7 +22,8 @@ class HomePage extends StatelessWidget {
             children: [
               TodoListWidget(),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20, bottom: 10, top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -37,7 +38,7 @@ class HomePage extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.search,
-                        size: 40,
+                        size: 30,
                         color: Colors.deepPurpleAccent,
                       ),
                     ),
@@ -54,7 +55,7 @@ class HomePage extends StatelessWidget {
                       ),
                       child: Icon(
                         Icons.add,
-                        size: 40,
+                        size: 30,
                         color: Colors.deepPurpleAccent,
                       ),
                     ),
